@@ -1,0 +1,225 @@
+package wumpus;
+
+import java.util.Scanner;
+
+public class wumpusV1 
+{
+	static Scanner input = new Scanner(System.in);
+	
+	static String[][] boardknown;
+	static String[][] buildboard;
+	static String myStack;
+	
+	static int dimX;
+	static int dimY;
+	
+	static int currposX;
+	static int currposY;
+	
+	public static void main(String[] args)
+	{
+		String mySize = input.nextLine();
+		
+		dimX = mySize.charAt(7);
+		dimY = mySize.charAt(9);
+		
+		boardknown = new String[dimX][dimY];
+		buildboard = new String[dimX][dimY];
+		myStack = "";
+		for (int x=0; x<dimX; x++)
+		{
+			for (int y=0; y<dimY; y++)
+			{
+				boardknown[x][y] = "";
+				buildboard[x][y] = "";
+			}
+		}
+		
+		currposX = 0;
+		currposY = 0;
+		
+		while (input.hasNextLine())
+		{
+			String myLine = input.nextLine();
+			String[] myArray = myLine.split(",");
+			
+			int myX = new Integer(myArray[0]);
+			int myY = new Integer(myArray[1]);
+			
+			for (int i=2; i<myArray.length; i++)
+			{
+				if (myArray[i].equals("E"))
+				{
+					currposX = myX;
+					currposY = myY;
+					
+					boardknown[myX][myY] = "V";
+				}
+				else if (myArray[i].equals("W"))
+				{
+					boardknown[myX][myY] += "W";
+				}
+				else if (myArray[i].equals("B"))
+				{
+					boardknown[myX][myY] += "B";
+				}
+				else if (myArray[i].equals("S"))
+				{
+					boardknown[myX][myY] += "S";
+				}
+				else if (myArray[i].equals("G"))
+				{
+					boardknown[myX][myY] += "G";
+				}
+				else if (myArray[i].equals("P"))
+				{
+					boardknown[myX][myY] += "P";
+				}
+			}
+			
+		}
+		
+		
+		
+		System.out.println(solve());
+	}
+	
+	public static int solve()
+	{
+		int score = 0;
+		int hasGold = 0;
+		int fail = 0;
+		
+		while (hasGold == 0)
+		{
+			String myAttrib = boardknown[currposX][currposY];
+			
+			Boolean currB = false;
+			Boolean currS = false;
+			
+			int var;
+			for (var=0; var<myAttrib.length(); var++)
+			{
+				if (myAttrib.charAt(var) == 'W')
+				{
+					System.out.println("Wumpus is in the current square!");
+					fail = 1;
+					break;
+				}
+				else if (myAttrib.charAt(var) == 'P')
+				{
+					System.out.println("Pit is in the current square!");
+					fail = 1;
+					break;
+				}
+				else if (myAttrib.charAt(var) == 'B')
+				{
+					currB = true;
+					
+					if (currposX+1 < dimX && !buildboard[currposX+1][currposY].equals("V"))
+					{
+						buildboard[currposX+1][currposY] += "bU";
+					}
+					
+					if (currposX-1 >= 0 && !buildboard[currposX-1][currposY].equals("V"))
+					{
+						buildboard[currposX-1][currposY] += "bD";
+					}
+					
+					if (currposY+1 < dimY && !buildboard[currposX][currposY+1].equals("V"))
+					{
+						buildboard[currposX][currposY+1] += "bL";
+					}
+					
+					if (currposY-1 >= 0  && !buildboard[currposX][currposY-1].equals("V"))
+					{
+						buildboard[currposX][currposY-1] += "bR";
+					}
+					
+				}
+				else if (myAttrib.charAt(var) == 'S')
+				{
+					currS = true;
+					
+					if (currposX+1 < dimX && !buildboard[currposX+1][currposY].equals("V"))
+					{
+						buildboard[currposX+1][currposY] += "sU";
+					}
+					
+					if (currposX-1 >= 0 && !buildboard[currposX-1][currposY].equals("V"))
+					{
+						buildboard[currposX-1][currposY] += "sD";
+					}
+					
+					if (currposY+1 < dimY && !buildboard[currposX][currposY+1].equals("V"))
+					{
+						buildboard[currposX][currposY+1] += "sL";
+					}
+					
+					if (currposY-1 >= 0  && !buildboard[currposX][currposY-1].equals("V"))
+					{
+						buildboard[currposX][currposY-1] += "sR";
+					}
+					
+					
+				}
+				else if (myAttrib.charAt(var) == 'G')
+				{
+					hasGold = 1;
+					
+					break;
+					
+				}
+				
+			}
+			
+			if (hasGold == 1)
+			{
+				score += 1000;
+				
+				break;
+			}
+			else if (fail == 1)
+			{
+				break;
+			}
+			else
+			{
+				buildboard[currposX][currposY] = "V";
+			}
+			
+			if (var == 0)
+			{
+				//choose random unvisited place to walk
+				
+				score -= 1;
+			}
+			else
+			{
+				//turn around; too dangerous
+				
+				score -= 1;
+			}
+			
+			System.out.println("my move");
+		}
+		
+		
+		if (fail != 0)
+		{
+			System.out.println("Agent died. Game over.");
+		}
+		
+		
+		while (currposX != 0 || currposY != 0 && fail != 1)
+		{
+			
+			
+			System.out.println("my move");
+		}
+		
+		
+		return score;
+	}
+
+}
