@@ -10,6 +10,13 @@ public class wumpusV1
 	static String[][] buildboard;
 	static String myStack;
 	
+	static Boolean[][] visited;
+	static Boolean[][] breezy;
+	static Boolean[][] smelly;
+	static Boolean[][] glitters;
+	static Boolean[][] pit;
+	static Boolean[][] wumpus;
+	
 	static int dimX;
 	static int dimY;
 	
@@ -20,23 +27,41 @@ public class wumpusV1
 	{
 		String mySize = input.nextLine();
 		
-		dimX = mySize.charAt(7);
-		dimY = mySize.charAt(9);
+		dimX = mySize.charAt(7)-48;
+		dimY = mySize.charAt(9)-48;
 		
 		boardknown = new String[dimX][dimY];
 		buildboard = new String[dimX][dimY];
+		
+		visited = new Boolean[dimX][dimY];
+		breezy = new Boolean[dimX][dimY];
+		smelly = new Boolean[dimX][dimY];
+		glitters = new Boolean[dimX][dimY];
+		pit = new Boolean[dimX][dimY];
+		wumpus = new Boolean[dimX][dimY];
+		
 		myStack = "";
+		
 		for (int x=0; x<dimX; x++)
 		{
 			for (int y=0; y<dimY; y++)
 			{
 				boardknown[x][y] = "";
 				buildboard[x][y] = "";
+				
+				visited[x][y] = false;
+				breezy[x][y] = false;
+				smelly[x][y] = false;
+				glitters[x][y] = false;
+				pit[x][y] = false;
+				wumpus[x][y] = false;
 			}
 		}
 		
 		currposX = 0;
 		currposY = 0;
+		
+		printBoard();
 		
 		while (input.hasNextLine())
 		{
@@ -96,6 +121,7 @@ public class wumpusV1
 			
 			Boolean currB = false;
 			Boolean currS = false;
+			Boolean safe = true;
 			
 			int var;
 			for (var=0; var<myAttrib.length(); var++)
@@ -115,6 +141,7 @@ public class wumpusV1
 				else if (myAttrib.charAt(var) == 'B')
 				{
 					currB = true;
+					safe = false;
 					
 					if (currposX+1 < dimX && !buildboard[currposX+1][currposY].equals("V"))
 					{
@@ -140,6 +167,7 @@ public class wumpusV1
 				else if (myAttrib.charAt(var) == 'S')
 				{
 					currS = true;
+					safe = false;
 					
 					if (currposX+1 < dimX && !buildboard[currposX+1][currposY].equals("V"))
 					{
@@ -220,6 +248,74 @@ public class wumpusV1
 		
 		
 		return score;
+	}
+	
+	
+	public static void printBoard()
+	{
+		for (int x=0; x<dimX; x++)
+		{
+			System.out.print("|");
+			
+			for (int y=0; y<dimY; y++)
+			{
+				if (visited[x][y] && breezy[x][y])
+				{
+					System.out.print("B");
+				}
+				else
+				{
+					System.out.print(" ");
+				}
+				
+				if (visited[x][y] && smelly[x][y])
+				{
+					System.out.print("S");
+				}
+				else
+				{
+					System.out.print(" ");
+				}
+				
+				if (visited[x][y] && glitters[x][y])
+				{
+					System.out.print("G");
+				}
+				else
+				{
+					System.out.print(" ");
+				}
+				
+				if (pit[x][y])
+				{
+					System.out.print("P");
+				}
+				else
+				{
+					System.out.print(" ");
+				}
+				
+				if (wumpus[x][y])
+				{
+					System.out.print("W");
+				}
+				else
+				{
+					System.out.print(" ");
+				}
+				
+				System.out.print("|");
+			}
+			
+			System.out.println("");
+			System.out.print("|");
+			for (int q=0; q<(dimY*6-1); q++)
+			{
+				System.out.print("_");
+			}
+			System.out.println("|");
+		}
+		
 	}
 
 }
