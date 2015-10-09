@@ -1,6 +1,6 @@
 Hunt the Wumpus
 CS664
-Team Members: Jan Horjus
+Team Members: Jan Horjus, ADD YOUR NAMES HERE
 
 
  1.) How to build and test
