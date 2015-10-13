@@ -1,6 +1,6 @@
 Hunt the Wumpus
 CS664
-Team Members: Jan Horjus, ADD YOUR NAMES HERE
+Team Members: Jan Horjus, Terry O'Neill (ton@bu.edu) ADD YOUR NAMES HERE
 
 
  1.) How to build and test
