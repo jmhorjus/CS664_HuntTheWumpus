@@ -4,11 +4,12 @@ Team Members: Jan Horjus, Terry O'Neill (ton@bu.edu) ADD YOUR NAMES HERE
 
 
  1.) How to build and test
+     TODO: Fill in this section. 
 
  2.) Description of the Algorithm used to solve
      A.) Keep track of the properties of previously visited squares.
      B.) Have a function which can navigate a safe path (action sequence) to an unvisited square which is adjacent 
-         to a visited square (edge square) without going through any other unvisited squares.
+         to a visited square (hereafter defined as an "edge square") without going through any other unvisited squares.
      C.) Have a function which determines which edge square to explore next. 
          i.) It should prefer the closest available edge square which can be proven safe. 
          ii.)How do you know which squares are safe?
@@ -38,13 +39,22 @@ I think we make the following assumptions:
 - the board is setup so that the AI agent can win through some series of actions.
 
 Q: I am unsure what is the difference between and 'edge' square and an 'adjacent' square above? Is an 'edge' square one that is unvisited?
+A: Yes, the definition of "edge square" is "an unvisited square which is adjacent to a visited square". Visited squares we know fully, 
+   and unvisited squares 
 
 I think there are two goals for the AI Agent in the game:
   1) get the gold and get out safe
   2) maximize points.
 
-Regarding point 'E.i' above, I don't think the AI Agent  would be maximizing points unless all of the smelly squares have been visited before firing the arrow at the wumpus. It is -1 point for each action taken, and -10 points for using the arrow, +1000 for climbing out alive, and -1000 for falling into the pit or being eaten by the wumpus. Given this, it would take a maximum of 3 moves (-3 points) to figure out where the Wumpus is vs shooting for it (-10 points). I think the only instance in which the arrow need be used is if you entered the game at some cell that is in a corner and that entry cell is immediately smelly. Since the only two moves you can make may contain the Wumpus, you would have to shoot and listen for the scream in order to determine the next move.
-
+Regarding point 'E.i' above, I don't think the AI Agent  would be maximizing points unless all of the smelly squares have been visited 
+before firing the arrow at the wumpus. It is -1 point for each action taken, and -10 points for using the arrow, +1000 for climbing 
+out alive, and -1000 for falling into the pit or being eaten by the wumpus. Given this, it would take a maximum of 3 moves 
+(-3 points) to figure out where the Wumpus is vs shooting for it (-10 points). I think the only instance in which the arrow 
+need be used is if you entered the game at some cell that is in a corner and that entry cell is immediately smelly. 
+Since the only two moves you can make may contain the Wumpus, you would have to shoot and listen for the scream in order to 
+determine the next move.
+A: Right again - using the arrow is never considered unless there are no remaining safe edge squares - meaning that using the arrow is 
+   the only alternative to entering an unsafe square and risking death.  
 
 
 
