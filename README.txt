@@ -31,3 +31,20 @@ Team Members: Jan Horjus, Terry O'Neill (ton@bu.edu) ADD YOUR NAMES HERE
          map is bad or your solving algorithm is.
      G.) Obviously, once you find the gold pick it up. Then stop exploring and back-track to the exit.
      
+===
+Notes for discussion from Terry on the above:
+
+I think we make the following assumptions:
+- the board is setup so that the AI agent can win through some series of actions.
+
+Q: I am unsure what is the difference between and 'edge' square and an 'adjacent' square above? Is an 'edge' square one that is unvisited?
+
+I think there are two goals for the AI Agent in the game:
+  1) get the gold and get out safe
+  2) maximize points.
+
+Regarding point 'E.i' above, I don't think the AI Agent  would be maximizing points unless all of the smelly squares have been visited before firing the arrow at the wumpus. It is -1 point for each action taken, and -10 points for using the arrow, +1000 for climbing out alive, and -1000 for falling into the pit or being eaten by the wumpus. Given this, it would take a maximum of 3 moves (-3 points) to figure out where the Wumpus is vs shooting for it (-10 points). I think the only instance in which the arrow need be used is if you entered the game at some cell that is in a corner and that entry cell is immediately smelly. Since the only two moves you can make may contain the Wumpus, you would have to shoot and listen for the scream in order to determine the next move.
+
+
+
+
