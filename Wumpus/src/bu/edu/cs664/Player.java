@@ -53,7 +53,6 @@ public class Player {
 		return myMoves.isEmpty() ? true : false;
 	}
 	
-	
 	public enum Action {
 		TURN_LEFT,
 		TURN_RIGHT,
@@ -70,4 +69,12 @@ public class Player {
 		BUMP,
 		SCREAM
 	}
+	
+	public enum Direction {
+		NORTH,  // y decreasing 
+		SOUTH,  // y increasing
+		EAST,   // x increasing
+		WEST    // x decreasing
+	}
+	
 }
