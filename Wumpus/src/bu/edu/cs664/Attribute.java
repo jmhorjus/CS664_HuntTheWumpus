@@ -2,40 +2,21 @@ package bu.edu.cs664;
 
 public enum Attribute {
 	
-	// Position is OK
-	OK("OK"),
+	ENTRY,
 	
-	// Position was Visited
-	VISITED("V"),
+	VISITED,
 	
-	// Possible Pit location
-	POSSIBLE_PIT("P?"),
+	BREEZY,
 	
-	// Position is a Pit
-	IS_PIT("P"),
+	SMELLY,
 	
-	// Breeze at Position
-	BREEZE("B"),
+	GLITTERS,
 	
-	// Stench at Position
-	STENCH("S"),
+	PIT,
 	
-	// Wumpus at Position
-	WUMPUS("W"),
+	WUMPUS,
 	
-	// Agent current location
-	AGENT("A");
+	INFERENCE,
 	
-	private String attr;
-	
-	private Attribute(String attr) 
-	{
-		this.attr = attr;
-	}
-	
-	public String getAttribute()
-	{
-		return attr;
-	}
-	
+	SAFE
 }

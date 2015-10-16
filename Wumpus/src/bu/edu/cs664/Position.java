@@ -1,7 +1,5 @@
 package bu.edu.cs664;
 
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Position class defines each individual
@@ -14,7 +12,8 @@ import java.util.List;
 public class Position
 {
 	int x, y;
-	List<Attribute> attributes = new LinkedList<Attribute>();
+	//attributes can be accessed in the following order:  Entry, visited, breezy, smelly, glitters, pit, wumpus, inference, safe    
+	Boolean[] attributes;
 	
 	/**
 	 * Constructor requires x and y coords.
@@ -22,11 +21,16 @@ public class Position
 	 * @param y zero-based y coordinate
 	 * @param attributes a String of attribute letters
 	 */
-	public Position(int x, int y, String attributes)
+	public Position(int x, int y, String attrib)
 	{
 		this.x = x;
 		this.y = y;
-		setAttributes(attributes);
+		attributes = new Boolean[9];
+		for (int i=0; i<attributes.length; i++)
+		{
+			attributes[i] = false;
+		}
+		setAttributes(attrib);
 	}
 	
 	/**
@@ -52,22 +56,47 @@ public class Position
 	 * 
 	 * @return attributes
 	 */
-	public List<Attribute> getAttributes()
+	public Boolean[] getAttributes()
 	{
 		return this.attributes;
 	}
 	
 	/**
 	 * Set the attributes on the position.
-	 * @param attributes attributes to set
+	 * @param attributes2 attributes to set
 	 */
-	public void setAttributes(String attributes)
+	public void setAttributes(String attributes2)
 	{
-		Attribute attr = null;
-		for (int i = 0; i < attributes.length(); i++)
+		String attr = null;
+		for (int i = 0; i < attributes2.length(); i++)
 		{
-			attr = Attribute.valueOf(attributes.substring(i, 1));
-			this.attributes.add(attr);
+			attr = attributes2.substring(i, 1);
+			
+			if (attr.equals("E"))
+			{
+				attributes[0] = true;
+			}
+			else if (attr.equals("W"))
+			{
+				attributes[6] = true;
+			}
+			else if (attr.equals("B"))
+			{
+				attributes[2] = true;
+			}
+			else if (attr.equals("S"))
+			{
+				attributes[3] = true;
+			}
+			else if (attr.equals("G"))
+			{
+				attributes[4] = true;
+			}
+			else if (attr.equals("P"))
+			{
+				attributes[5] = true;
+			}
+			
 		}
 	}
 	
