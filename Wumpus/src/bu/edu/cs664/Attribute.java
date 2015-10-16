@@ -2,21 +2,45 @@ package bu.edu.cs664;
 
 public enum Attribute {
 	
-	ENTRY,
+	ENTRY("E"),
 	
-	VISITED,
+	VISITED("V"),
 	
-	BREEZY,
+	BREEZY("B"),
 	
-	SMELLY,
+	SMELLY("S"),
 	
-	GLITTERS,
+	GLITTERS("G"),
 	
-	PIT,
+	PIT("P"),
 	
-	WUMPUS,
+	WUMPUS("W"),
 	
-	INFERENCE,
+	INFERENCE("I"),
 	
-	SAFE
+	SAFE("A");
+	
+	private String symbol;
+	
+	private Attribute(String symbol)
+	{
+		this.symbol = symbol;
+	}
+	
+	public String getSymbol()
+	{
+		return symbol;
+	}
+	
+	public static Attribute ForSymbol(String attr)
+	{
+		for (Attribute a : Attribute.values())
+		{
+			if (attr.equals(a.getSymbol()))
+			{
+				return a;
+			}
+		}
+		return null;
+	}
 }

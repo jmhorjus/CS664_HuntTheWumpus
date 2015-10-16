@@ -30,11 +30,11 @@ public class KnowledgeBase {
 	}
 	
 	// The game s telling me the attributes of my current position.
-	public void tell(List<Attribute> attributes)
+	public void tell(Position pos)
 	{
 		// Set the attributes given as well as the "visited" attribute on my current space.
-		attributes.add(Attribute.VISITED);
-		board.setPosition(currentPos.getX(), currentPos.getY(), attributes);
+		pos.add(Attribute.VISITED);
+		// board.setPosition(currentPos.getX(), currentPos.getY(), attributes);
 	}
 	
 	// The Game is asking me what action (or series of actions) I want to take next.
