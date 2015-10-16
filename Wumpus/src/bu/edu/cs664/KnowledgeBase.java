@@ -1,8 +1,11 @@
 package bu.edu.cs664;
 
 import java.util.List;
+import java.util.ArrayList;
 
 import bu.edu.cs664.Player.Action;
+import bu.edu.cs664.Player.Direction;
+
 
 /**
  * The knowledge base is the AI Logical Agent
@@ -12,7 +15,7 @@ import bu.edu.cs664.Player.Action;
 public class KnowledgeBase {
 	Board board = null; // My knowledge of the board.
 	Position currentPos = null; // Where I believe myself to be; x and y.
-	
+	Direction currentDir = null;
 	
 	// Get the "position" object from the board where we are.
 	private Position boardPosition()
@@ -20,39 +23,59 @@ public class KnowledgeBase {
 		return board.getPosition(currentPos.getX(), currentPos.getY());
 	}
 	
-	
 	// Constructor
 	public KnowledgeBase(Board board)
 	{
 		this.board = board;
 	}
 	
-	
-	public void smellTheAir(List<Attribute> attributes)
+	// The game s telling me the attributes of my current position.
+	public void tell(List<Attribute> attributes)
 	{
+		// Set the attributes given as well as the "visited" attribute on my current space.
 		attributes.add(Attribute.VISITED);
 		board.setPosition(currentPos.getX(), currentPos.getY(), attributes);
 	}
 	
-	
-	/**
-	 * Tell the board what I perceive.
-	 * @param pos the current position
-	 */
-	public void tell(Position pos)
+	// The Game is asking me what action (or series of actions) I want to take next.
+	public List<Action> ask()
 	{
-		Position boardPos = board.getPosition(pos.getX(), pos.getY());
-		boardPos.setAttributes(pos.getAttributes());
-		boardPos.addAttributes("A");
+		// First make a list of "edge positions" which are not visited but are adjacent to
+		// a visited position.
+		List<Position> edgePositions = new ArrayList<Position>();
+		for (int xx = 0; xx < board.getX(); xx++) {
+			for (int yy = 0; yy < board.getY(); yy++) {
+				if (board.getPosition(xx, yy).hasAttribute(Attribute.VISITED) ) {
+					
+				}
+			}
+		}
+		
+		// For each edge position, determine whether that position is safe.
+		// a.) Must be adjacent to one visited non-breezy position.
+		// b.) Must be adjacent to one visited non-smelly position, or not-adjacent to one visited smelly position.
+		List<Position> safeEdgePositions = new ArrayList<Position>();
+		
+		// If there are *no* safe edge positions, then we need to get fancy with our arrow.
+
+		
+		// Among safe edge positions, choose the closest one.  
+		// safeEdgePositions.sort( /*need to use a comparator here to compare distance from the current location*/ );
+		Position destination = safeEdgePositions.get(0);
+		
+		return findPath(destination);
 	}
 	
-	/**
-	 * Ask what Action I should take
-	 * 
-	 * @return
-	 */
-	public Action ask()
-	{
-		return null;
+	
+	// The path-finding function.  Must find a series of actions which will 
+	public List<Action> findPath(Position destination) {
+		
+		List<Action> outputActions = new ArrayList<Action>();
+		
+		// determine a series of *visited* positions that connect our position to the destination. 
+		
+		return outputActions;
 	}
+	
+	
 }
