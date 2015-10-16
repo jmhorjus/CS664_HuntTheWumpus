@@ -100,6 +100,11 @@ public class Position
 		}
 	}
 	
+	public boolean hasAttribute(Attribute att) {
+		return true;
+	}
+	
+	
 	/**
 	 * String form of a Position.
 	 */
