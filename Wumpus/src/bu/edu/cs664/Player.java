@@ -53,43 +53,6 @@ public class Player {
 		return myMoves.isEmpty() ? true : false;
 	}
 	
-	/**
-	 * The knowledge base is the AI Logical Agent
-	 * that makes decisions for the Player.
-	 *
-	 */
-	public class KnowledgeBase {
-		Board board = null;
-		Position currentPos = null;
-
-		
-		// Constructor
-		public KnowledgeBase(Board board)
-		{
-			this.board = board;
-		}
-		
-		/**
-		 * Tell the board what I perceive.
-		 * @param pos the current position
-		 */
-		public void tell(Position pos)
-		{
-			Position boardPos = board.getPosition(pos.getX(), pos.getY());
-			boardPos.setAttributes(pos.getAttributes());
-			boardPos.addAttributes("A");
-		}
-		
-		/**
-		 * Ask what Action I should take
-		 * 
-		 * @return
-		 */
-		public Action ask()
-		{
-			return null;
-		}
-	}
 	
 	public enum Action {
 		TURN_LEFT,
