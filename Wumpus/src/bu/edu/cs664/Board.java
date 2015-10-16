@@ -17,6 +17,7 @@ public class Board
 	// So for a Size=4,4 board, maxX and maxY will be 5.
 	int maxX, maxY;
 	List<Position> positions;
+	String[] possibleAttributes = {"E", "V", "B", "S", "G", "P", "W", "I", "A"};
 	
 	/**
 	 * Board Constructor. Define a board based on
@@ -107,6 +108,46 @@ public class Board
 		{
 			throw new IllegalArgumentException("Only a single attribute may be searched for!");
 		}
+		
+		//determine index of attr
+		int index = 0;
+		if (attr.equals("E"))
+		{
+			index = 0;
+		}
+		else if (attr.equals("W"))
+		{
+			index = 6;
+		}
+		else if (attr.equals("B"))
+		{
+			index = 2;
+		}
+		else if (attr.equals("S"))
+		{
+			index = 3;
+		}
+		else if (attr.equals("G"))
+		{
+			index = 4;
+		}
+		else if (attr.equals("P"))
+		{
+			index = 5;
+		}
+		else if (attr.equals("V"))
+		{
+			index = 1;
+		}
+		else if (attr.equals("I"))
+		{
+			index = 7;
+		}
+		else if (attr.equals("A")) //***attribute "A" means SAFE
+		{
+			index = 8;
+		}
+		
 		// Search for attribute specified
 		Position pos = null;
 		for (int y = 0; y < maxY; y++)
@@ -114,7 +155,7 @@ public class Board
 			for (int x = 0; x < maxX; x++)
 			{
 				pos = this.getPosition(x, y);
-				if (pos.getAttributes() != null && pos.getAttributes().contains(attr))
+				if (pos.getAttributes() != null && ((pos.getAttributes())[index]))
 				{
 					return pos;
 				}
@@ -246,7 +287,7 @@ public class Board
 				}
 				
 				// Now we print the cell attributes (if any)
-				String attrs = null;
+				Boolean[] attrs;
 				for (int x = 0; x < maxX; x++)
 				{
 					// Print attributes on first line
@@ -254,10 +295,20 @@ public class Board
 					{
 						// print the x,y position attributes
 						attrs = this.getPosition(x, y).getAttributes();
-						System.out.print(attrs);
 						
-						// Fill the cell with spaces
-						System.out.print("     ".substring(0, 5 - attrs.length()));
+						//print the attributes
+						for (int p=0; p<attrs.length; p++)
+						{
+							if (attrs[p] == true)
+							{
+								System.out.print(possibleAttributes[p]);
+							}
+							else
+							{
+								System.out.print(" ");
+							}
+						}
+						
 						System.out.print("|");
 					}
 					else
