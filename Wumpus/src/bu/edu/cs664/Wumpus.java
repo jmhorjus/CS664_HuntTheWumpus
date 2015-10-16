@@ -1,7 +1,5 @@
 package bu.edu.cs664;
 
-import java.util.List;
-
 /**
  * CS-664 AI Class Lab
  * 

@@ -229,7 +229,7 @@ public class Board
 		System.out.print("       ");
 		for (int x = 0; x < maxX; x++)
 		{
-			System.out.print("   " + x + "  ");
+			System.out.print("    " + x + "     ");
 		}
 		System.out.println();
 		
@@ -237,7 +237,7 @@ public class Board
 		System.out.print("       ");
 		for (int l = 0; l < maxX; l++)
 		{
-			System.out.print("______");
+			System.out.print("__________");
 		}
 		System.out.println("_");
 		
@@ -245,7 +245,7 @@ public class Board
 		for (int y = 0; y < maxY; y++)
 		{
 							
-			for (int i = 0; i < 8; i++)
+			for (int i = 0; i < 2; i++)
 			{
 				// First line of a cell has the Y coord
 				if (i == 0)
@@ -269,23 +269,21 @@ public class Board
 						attrs = this.getPosition(x, y).getAttributes();
 						
 						//print the attributes
+						int printed = 0;
 						for (int p=0; p<attrs.length; p++)
 						{
 							if (attrs[p] == true)
 							{
 								System.out.print(possibleAttributes[p]);
-							}
-							else
-							{
-								System.out.print(" ");
+								printed++;
 							}
 						}
-						
+						System.out.print("          ".substring(0, 9 - printed));
 						System.out.print("|");
 					}
 					else
 					{
-						System.out.print("     |");
+						System.out.print("         |");
 					}
 				}
 				System.out.println();
@@ -295,7 +293,7 @@ public class Board
 			System.out.print("       ");
 			for (int x = 0; x < maxX; x++)
 			{
-				System.out.print("______");
+				System.out.print("__________");
 			}
 			System.out.println("_");
 		}

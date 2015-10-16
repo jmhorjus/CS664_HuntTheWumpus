@@ -69,7 +69,7 @@ public class Position
 		String attr = null;
 		for (int i = 0; i < attributes2.length(); i++)
 		{
-			attr = attributes2.substring(i, 1);
+			attr = attributes2.substring(i, i + 1);
 			
 			if (attr.equals(Attribute.ENTRY.getSymbol()))
 			{
