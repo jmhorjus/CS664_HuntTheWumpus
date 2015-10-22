@@ -32,6 +32,19 @@ public class Position
 		setAttributes(attrib);
 	}
 	
+	public boolean adjacentTo(Position pos) 
+	{
+		int deltaX = this.x - pos.x;
+		int deltaY = this.y - pos.y;
+		
+		if (deltaY == 0 && (deltaX == -1 || deltaX == 1))
+			return true;
+		if (deltaX == 0 && (deltaY == -1 || deltaY == 1))
+			return true;
+		
+		return false;
+	}
+	
 	/**
 	 * Get the x coordinate
 	 * @return x coordinate
