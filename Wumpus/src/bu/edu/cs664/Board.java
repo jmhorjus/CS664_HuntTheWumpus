@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import bu.edu.cs664.Player.Direction;
+
 /**
  * Board class understands how to create a board
  * of given dimensions, and how to populate each
@@ -196,6 +198,29 @@ public class Board
 		}
 		
 		return list;
+	}
+	
+	
+	// Returns the next position in the board which is in the 
+	// specified direction from the given start.
+	public Position getNextPosInDirection(Position start, Direction dir)
+	{
+		Position retVal = null;
+		switch(dir) {
+		case NORTH:
+			retVal = this.getPosition(start.getX(), start.getY()-1);
+			break;
+		case SOUTH:
+			retVal = this.getPosition(start.getX(), start.getY()+1);
+			break;
+		case EAST:
+			retVal = this.getPosition(start.getX()+1, start.getY());
+			break;
+		case WEST:
+			retVal = this.getPosition(start.getX()-1, start.getY());
+			break;
+		}
+		return retVal;
 	}
 	
 	/**

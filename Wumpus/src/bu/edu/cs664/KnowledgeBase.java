@@ -132,20 +132,91 @@ public class KnowledgeBase {
 		
 		// determine a series of *visited* positions that connect our position to the destination. 
 		
-		// Super nieve solution:
+		// Super naive solution:
 		// Just try walking along a path in the general direction of the destination.  
 		// If there's a un-visited space in our way, try another direction.  
-		Position here = boardPosition();
+		Position here = this.boardPosition();
+		Direction facing = this.currentDir;
 		while (here != destination)
 		{
 			// What's the direction from here to destination?
+			int distanceSouthY = destination.getY() - here.getY();
+			int distanceEastX = destination.getX() - here.getX();
 			
+			Direction nextDirection = null;
+			
+			// Try to find a good direction to move in that is into a visited space and generally toward the goal. 
+			if (Math.abs(distanceSouthY) > Math.abs(distanceEastX)) {
+				// Try to go north/south toward the destination.  
+				if (distanceSouthY > 0 && board.getNextPosInDirection(here, Direction.SOUTH).hasAttribute(Attribute.VISITED)) {
+					// Go south; it's safe and (probably) the right way!
+					nextDirection = Direction.SOUTH;
+				} else if (board.getNextPosInDirection(here, Direction.NORTH).hasAttribute(Attribute.VISITED)) {
+					// Go north; it's safe and (probably) the right way!
+					nextDirection = Direction.NORTH;
+				}
+			} else {
+				// Try to go north/south toward the destination.  
+				if (distanceEastX > 0 && board.getNextPosInDirection(here, Direction.EAST).hasAttribute(Attribute.VISITED)) {
+					// Go east; it's safe and (probably) the right way!
+					nextDirection = Direction.EAST;	
+				} else if ( board.getNextPosInDirection(here, Direction.WEST).hasAttribute(Attribute.VISITED)) {
+					// Go west; it's safe and (probably) the right way!
+					nextDirection = Direction.WEST;	
+				}
+			}
+			
+			// Take a step in the next direction! 
+			outputActions.addAll( turnToDirection(facing, nextDirection) );
+			facing = Direction.SOUTH;
+			outputActions.add(Action.MOVE_FORWARD);
+			here = board.getNextPosInDirection(here, Direction.SOUTH);
 			
 		}
 		
-		
 		return outputActions;
 	}
+	
+	// Takes a list of actions and appends turn actions to that list so that the player will be facing the desired direction afterward.
+	protected List<Action> turnToDirection(Direction st, Direction end)
+	{
+		List<Action> outputActions = new ArrayList<Action>();
+		
+		// Not the most elegant solution!  Brute force, yay!
+		// Cases are: Turn right, Turn Left, Turn Around, or Steady On.
+		// 1.) Steady On
+		if (st == end) {
+			// Do nothing!
+		// 2.) Turn Around
+		} else if ( (st == Direction.NORTH && end == Direction.SOUTH ) ||
+				(st == Direction.SOUTH && end == Direction.NORTH ) ||
+				(st == Direction.EAST && end == Direction.WEST ) ||
+				(st == Direction.WEST && end == Direction.EAST )
+				){ 
+			outputActions.add(Action.TURN_RIGHT);
+			outputActions.add(Action.TURN_RIGHT);
+		// 3.) Turn Right
+		} else if ( (st == Direction.NORTH && end == Direction.EAST ) ||
+				(st == Direction.EAST && end == Direction.SOUTH ) ||
+				(st == Direction.SOUTH && end == Direction.WEST ) ||
+				(st == Direction.WEST && end == Direction.NORTH )
+				){ 
+			outputActions.add(Action.TURN_RIGHT);
+		// 4.) Turn Left
+		} else if ( (st == Direction.NORTH && end == Direction.WEST ) ||
+				(st == Direction.WEST && end == Direction.SOUTH ) ||
+				(st == Direction.SOUTH && end == Direction.EAST ) ||
+				(st == Direction.EAST && end == Direction.NORTH )
+				){ 
+			outputActions.add(Action.TURN_LEFT);
+		} else {
+			throw new IllegalArgumentException("The directions defy logic! ");
+		}
+			
+		return outputActions;
+	}
+	
+	
 	
 	protected List<Action> grabAndGo()
 	{

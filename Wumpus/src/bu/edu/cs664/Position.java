@@ -50,6 +50,7 @@ public class Position implements Comparable<Position>
 		return false;
 	}
 	
+
 	public int distanceTo(Position pos)
 	{
 		int deltaX = this.x - pos.x;
