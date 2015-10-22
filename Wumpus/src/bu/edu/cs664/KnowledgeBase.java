@@ -2,6 +2,7 @@ package bu.edu.cs664;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 
 import bu.edu.cs664.Player.Action;
@@ -115,7 +116,7 @@ public class KnowledgeBase {
 		// return wumpusKillCommand();
 		
 		// Among safe edge positions, choose the closest one.  
-		// safeEdgePositions.sort( /*need to use a comparator here to compare distance from the current location*/ );
+		Collections.sort(safeEdgePositions);
 		Position destination = safeEdgePositions.get(0);
 		
 		return findPath(destination);
