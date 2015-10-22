@@ -1,6 +1,5 @@
 package bu.edu.cs664;
 
-import java.;
 
 /**
  * Position class defines each individual
@@ -52,7 +51,7 @@ public class Position
 		int deltaX = this.x - pos.x;
 		int deltaY = this.y - pos.y;
 		
-		return abs(deltaX) + abs(deltaY);
+		return Math.abs(deltaX) + Math.abs(deltaY);
 	}
 	
 	/**
@@ -82,6 +81,11 @@ public class Position
 	{
 		return this.attributes;
 	}
+	
+	public void setAttributes(Boolean[] attr)
+	{
+		this.attributes = attr;
+	}	
 	
 	/**
 	 * Set the attributes on the position.

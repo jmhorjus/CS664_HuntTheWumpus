@@ -35,7 +35,7 @@ public class KnowledgeBase {
 	{
 		// Set the attributes given as well as the "visited" attribute on my current space.
 		pos.add(Attribute.VISITED);
-		board.setPosition(currentPos.getX(), currentPos.getY(), pos.getAttributes());
+		boardPosition().setAttributes(pos.getAttributes());
 	}
 	
 	// The Game is asking me what action (or series of actions) I want to take next.
