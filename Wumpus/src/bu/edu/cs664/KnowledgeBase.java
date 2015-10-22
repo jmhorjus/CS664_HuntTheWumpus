@@ -26,10 +26,10 @@ public class KnowledgeBase {
 	}
 	
 	// Constructor
-	public KnowledgeBase(Board board, Direction startDir)
+	public KnowledgeBase(Board newBoard, int startX, int startY, Direction startDir)
 	{
-		this.board = board;
-		this.currentPos = board.getStartingPosition();
+		this.board = newBoard;
+		this.currentPos = this.board.getPosition(startX, startY);
 		this.currentDir = startDir;
 	}
 	
@@ -223,19 +223,19 @@ public class KnowledgeBase {
 			// Try to find a good direction to move in that is into a visited space and generally toward the goal. 
 			if (Math.abs(distanceSouthY) > Math.abs(distanceEastX)) {
 				// Try to go north/south toward the destination.  
-				if (distanceSouthY > 0 && board.getNextPosInDirection(here, Direction.SOUTH).hasAttribute(Attribute.VISITED)) {
+				if (distanceSouthY > 0 && isNextPosInDirectionVisited(here, Direction.SOUTH)) {
 					// Go south; it's safe and (probably) the right way!
 					nextDirection = Direction.SOUTH;
-				} else if (board.getNextPosInDirection(here, Direction.NORTH).hasAttribute(Attribute.VISITED)) {
+				} else if (isNextPosInDirectionVisited(here, Direction.NORTH)) {
 					// Go north; it's safe and (probably) the right way!
 					nextDirection = Direction.NORTH;
 				}
 			} else {
 				// Try to go north/south toward the destination.  
-				if (distanceEastX > 0 && board.getNextPosInDirection(here, Direction.EAST).hasAttribute(Attribute.VISITED)) {
+				if (distanceEastX > 0 && isNextPosInDirectionVisited(here, Direction.EAST)) {
 					// Go east; it's safe and (probably) the right way!
 					nextDirection = Direction.EAST;	
-				} else if ( board.getNextPosInDirection(here, Direction.WEST).hasAttribute(Attribute.VISITED)) {
+				} else if (isNextPosInDirectionVisited(here, Direction.WEST)) {
 					// Go west; it's safe and (probably) the right way!
 					nextDirection = Direction.WEST;	
 				}
@@ -250,6 +250,17 @@ public class KnowledgeBase {
 		}
 		
 		return outputActions;
+	}
+	
+	protected boolean isNextPosInDirectionVisited(Position pos, Direction dir) {
+		Position next = board.getNextPosInDirection(pos, dir);
+		if (next == null) {
+			return false;
+		} 
+		if (!next.hasAttribute(Attribute.VISITED)) {
+			return false;
+		}
+		return true;
 	}
 	
 	// Takes a list of actions and appends turn actions to that list so that the player will be facing the desired direction afterward.

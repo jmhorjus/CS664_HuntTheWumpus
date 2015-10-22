@@ -24,7 +24,7 @@ public class Player {
 	{
 		this.gameBoard = gameBoard;
 		this.myBoard = new Board(gameBoard.getX(), gameBoard.getY());
-		this.kb = new KnowledgeBase(myBoard, myDirection);
+		this.kb = new KnowledgeBase(myBoard, gameBoard.getStartingPosition().getX(), gameBoard.getStartingPosition().getY(),  myDirection);
 	}
 	
 	public void play()
