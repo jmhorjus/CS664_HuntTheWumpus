@@ -132,12 +132,13 @@ public class KnowledgeBase {
 	protected List<Action> grabAndGo()
 	{
 		// Find the exit - we know where it is.  
-		Position exitPosition = board.getFirstPositionWithAttribute(Attribute.ENTRY);
+		Position exitPosition = board.getStartingPosition();
 		
 		List<Action> outputActions = new ArrayList<Action>();
 		outputActions.add(Action.GRAB);
 		outputActions.addAll(findPath(exitPosition));
 		outputActions.add(Action.CLIMB);
+		return outputActions;
 	}
 	
 }
