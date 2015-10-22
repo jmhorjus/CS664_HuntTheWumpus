@@ -17,7 +17,17 @@ public class Board
 	// So for a Size=4,4 board, maxX and maxY will be 5.
 	int maxX, maxY;
 	List<Position> positions;
-	String[] possibleAttributes = {"E", "V", "B", "S", "G", "P", "W", "I", "A"};
+	String[] possibleAttributes = {
+			Attribute.ENTRY.getSymbol(), 
+			Attribute.VISITED.getSymbol(),
+			Attribute.BREEZY.getSymbol(),
+			Attribute.SMELLY.getSymbol(),
+			Attribute.GLITTERS.getSymbol(),
+			Attribute.PIT.getSymbol(),
+			Attribute.WUMPUS.getSymbol(),
+			Attribute.INFERENCE.getSymbol(),
+			Attribute.SAFE.getSymbol()
+	};
 	
 	/**
 	 * Board Constructor. Define a board based on
@@ -88,7 +98,7 @@ public class Board
 	 */
 	public Position getStartingPosition()
 	{
-		return getFirstPositionWithAttribute("E");
+		return getFirstPositionWithAttribute(Attribute.ENTRY.getSymbol());
 	}
 	
 	/**
@@ -108,46 +118,7 @@ public class Board
 		{
 			throw new IllegalArgumentException("Only a single attribute may be searched for!");
 		}
-		
-		//determine index of attr
-		int index = 0;
-		if (attr.equals("E"))
-		{
-			index = 0;
-		}
-		else if (attr.equals("W"))
-		{
-			index = 6;
-		}
-		else if (attr.equals("B"))
-		{
-			index = 2;
-		}
-		else if (attr.equals("S"))
-		{
-			index = 3;
-		}
-		else if (attr.equals("G"))
-		{
-			index = 4;
-		}
-		else if (attr.equals("P"))
-		{
-			index = 5;
-		}
-		else if (attr.equals("V"))
-		{
-			index = 1;
-		}
-		else if (attr.equals("I"))
-		{
-			index = 7;
-		}
-		else if (attr.equals("A")) //***attribute "A" means SAFE
-		{
-			index = 8;
-		}
-		
+				
 		// Search for attribute specified
 		Position pos = null;
 		for (int y = 0; y < maxY; y++)
@@ -155,7 +126,8 @@ public class Board
 			for (int x = 0; x < maxX; x++)
 			{
 				pos = this.getPosition(x, y);
-				if (pos.getAttributes() != null && ((pos.getAttributes())[index]))
+				if (pos.getAttributes() != null && 
+						((pos.getAttributes())[Attribute.ForSymbol(attr).ordinal()]))
 				{
 					return pos;
 				}
@@ -257,7 +229,7 @@ public class Board
 		System.out.print("       ");
 		for (int x = 0; x < maxX; x++)
 		{
-			System.out.print("   " + x + "  ");
+			System.out.print("    " + x + "     ");
 		}
 		System.out.println();
 		
@@ -265,7 +237,7 @@ public class Board
 		System.out.print("       ");
 		for (int l = 0; l < maxX; l++)
 		{
-			System.out.print("______");
+			System.out.print("__________");
 		}
 		System.out.println("_");
 		
@@ -273,7 +245,7 @@ public class Board
 		for (int y = 0; y < maxY; y++)
 		{
 							
-			for (int i = 0; i < 8; i++)
+			for (int i = 0; i < 2; i++)
 			{
 				// First line of a cell has the Y coord
 				if (i == 0)
@@ -297,23 +269,21 @@ public class Board
 						attrs = this.getPosition(x, y).getAttributes();
 						
 						//print the attributes
+						int printed = 0;
 						for (int p=0; p<attrs.length; p++)
 						{
 							if (attrs[p] == true)
 							{
 								System.out.print(possibleAttributes[p]);
-							}
-							else
-							{
-								System.out.print(" ");
+								printed++;
 							}
 						}
-						
+						System.out.print("          ".substring(0, 9 - printed));
 						System.out.print("|");
 					}
 					else
 					{
-						System.out.print("     |");
+						System.out.print("         |");
 					}
 				}
 				System.out.println();
@@ -323,7 +293,7 @@ public class Board
 			System.out.print("       ");
 			for (int x = 0; x < maxX; x++)
 			{
-				System.out.print("______");
+				System.out.print("__________");
 			}
 			System.out.println("_");
 		}

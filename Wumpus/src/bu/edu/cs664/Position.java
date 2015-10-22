@@ -1,6 +1,5 @@
 package bu.edu.cs664;
 
-
 /**
  * Position class defines each individual
  * board position. Each position contains
@@ -12,7 +11,7 @@ package bu.edu.cs664;
 public class Position
 {
 	int x, y;
-	//attributes can be accessed in the following order:  Entry, visited, breezy, smelly, glitters, pit, wumpus, inference, safe    
+	//attributes can be accessed in the ordr of the Attribute enum ordinals
 	Boolean[] attributes;
 	
 	/**
@@ -25,7 +24,7 @@ public class Position
 	{
 		this.x = x;
 		this.y = y;
-		attributes = new Boolean[9];
+		attributes = new Boolean[Attribute.values().length];
 		for (int i=0; i<attributes.length; i++)
 		{
 			attributes[i] = false;
@@ -70,40 +69,94 @@ public class Position
 		String attr = null;
 		for (int i = 0; i < attributes2.length(); i++)
 		{
-			attr = attributes2.substring(i, 1);
+			attr = attributes2.substring(i, i + 1);
 			
-			if (attr.equals("E"))
+			if (attr.equals(Attribute.ENTRY.getSymbol()))
 			{
-				attributes[0] = true;
+				attributes[Attribute.ENTRY.ordinal()] = true;
 			}
-			else if (attr.equals("W"))
+			else if (attr.equals(Attribute.WUMPUS.getSymbol()))
 			{
-				attributes[6] = true;
+				attributes[Attribute.WUMPUS.ordinal()] = true;
 			}
-			else if (attr.equals("B"))
+			else if (attr.equals(Attribute.BREEZY.getSymbol()))
 			{
-				attributes[2] = true;
+				attributes[Attribute.BREEZY.ordinal()] = true;
 			}
-			else if (attr.equals("S"))
+			else if (attr.equals(Attribute.SMELLY.getSymbol()))
 			{
-				attributes[3] = true;
+				attributes[Attribute.SMELLY.ordinal()] = true;
 			}
-			else if (attr.equals("G"))
+			else if (attr.equals(Attribute.GLITTERS.getSymbol()))
 			{
-				attributes[4] = true;
+				attributes[Attribute.GLITTERS.ordinal()] = true;
 			}
-			else if (attr.equals("P"))
+			else if (attr.equals(Attribute.PIT.getSymbol()))
 			{
-				attributes[5] = true;
+				attributes[Attribute.PIT.ordinal()] = true;
 			}
 			
 		}
 	}
 	
-	public boolean hasAttribute(Attribute att) {
-		return true;
+	public void add(Attribute attr)
+	{
+		attributes[attr.ordinal()] = true;
 	}
 	
+	public void remove(Attribute attr)
+	{
+		attributes[attr.ordinal()] = false;
+	}
+	
+	public boolean hasAttribute(Attribute att) {
+		return attributes[att.ordinal()];
+	}
+	
+	public boolean hasEntry()
+	{
+		return hasAttribute(Attribute.ENTRY);
+	}
+	
+	public boolean hasVisited()
+	{
+		return hasAttribute(Attribute.VISITED);
+	}
+	
+	public boolean hasBreezy()
+	{
+		return hasAttribute(Attribute.BREEZY);
+	}
+	
+	public boolean hasSmelly()
+	{
+		return hasAttribute(Attribute.SMELLY);
+	}
+	
+	public boolean hasGlitter()
+	{
+		return hasAttribute(Attribute.GLITTERS);
+	}
+	
+	public boolean hasPit()
+	{
+		return hasAttribute(Attribute.PIT);
+	}
+	
+	public boolean hasWumpus()
+	{
+		return hasAttribute(Attribute.WUMPUS);
+	}
+	
+	public boolean hasInference()
+	{
+		return hasAttribute(Attribute.INFERENCE);
+	}
+	
+	public boolean hasSafe()
+	{
+		return hasAttribute(Attribute.SAFE);
+	}
 	
 	/**
 	 * String form of a Position.

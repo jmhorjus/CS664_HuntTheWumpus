@@ -1,7 +1,5 @@
 package bu.edu.cs664;
 
-import java.util.List;
-
 /**
  * CS-664 AI Class Lab
  * 
@@ -57,12 +55,6 @@ public class Wumpus {
 		// Display the initial state of the full game board.
 		// debugging purposes only.
 		gameBoard.print();
-		
-		// Get the Entry point position
-		Position pos = gameBoard.getFirstPositionWithAttribute("E");
-		
-		// These are the list of places the player can move.
-		List<Position> adj = gameBoard.getAdjacentPositions(pos);
 		
 		Player player = new Player(gameBoard);
 		player.play();

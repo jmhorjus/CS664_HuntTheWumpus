@@ -20,14 +20,13 @@ public class Player {
 	{
 		this.gameBoard = gameBoard;
 		this.myBoard = new Board(gameBoard.getX(), gameBoard.getY());
+		this.kb = new KnowledgeBase(myBoard);
 	}
 	
 	public void play()
 	{
-		Position currentPos = null;
-		Position nextPos = null;
 		Position pos = null;
-		Action action = null;
+		java.util.List<Action> actions = null;
 		
 		// Enter the game
 		pos = gameBoard.getStartingPosition();
@@ -36,14 +35,14 @@ public class Player {
 			// Print the board state
 			myBoard.print();
 			
-			// Tell the KB what is here
+			// Tell the KB my position
 			kb.tell(pos);
 			
 			// Ask what action i should perform next
-			action = kb.ask();
+			actions = kb.ask();
 			
 			// Perform the action
-			pos = performAction(action);
+			// pos = performAction(action);
 		}
 		while(!gameIsOver());
 	}
