@@ -113,7 +113,7 @@ public class KnowledgeBase {
 
 		
 		// If there are *no* safe edge positions, then we need to get fancy with our arrow.
-		// return wumpusKillCommand();
+		//return wumpusKillCommand();
 		
 		// Among safe edge positions, choose the closest one.  
 		Position.curX = currentPos.getX();
@@ -122,6 +122,80 @@ public class KnowledgeBase {
 		Position destination = safeEdgePositions.get(0);
 		
 		return findPath(destination);
+	}
+	
+	protected List<Action> wumpusKillCommand()
+	{
+		Position posWump = null;
+		Boolean posWumpKnown = false;
+		List<Action> myacts;
+		
+		for (int x=0; x<board.getX(); x++)
+		{
+			for (int y=0; y<board.getY(); y++)
+			{
+				if (board.getPosition(x, y).hasWumpus())
+				{
+					posWumpKnown = true;
+					posWump = board.getPosition(x, y);
+				}
+			}
+		}
+		
+		if (posWumpKnown)
+		{
+			myacts = findPath(posWump);
+		}
+		else
+		{
+			//look for wumpus based on where smelly spots are on the board
+			for (int x=0; x<board.getX(); x++)
+			{
+				for (int y=0; y<board.getY(); y++)
+				{
+					if (board.getPosition(x, y).hasSmelly())
+					{
+						if (((x+2) <= board.getX()) && board.getPosition(x+2, y).hasSmelly())
+						{
+							posWumpKnown = true;
+							posWump = board.getPosition(x+1, y);
+						}
+						else if (((y+2) <= board.getY()) && board.getPosition(x, y+2).hasSmelly())
+						{
+							posWumpKnown = true;
+							posWump = board.getPosition(x, y+2);
+						}
+						else if (((x+1) <= board.getX()) && ((y+1) <= board.getY()) && board.getPosition(x+1, y+1).hasSmelly())
+						{
+							posWumpKnown = true;
+							posWump = board.getPosition(x, y+1);
+						}
+						else if (((x-1) >= 0) && ((y+1) <= board.getY()) && board.getPosition(x-1, y+1).hasSmelly())
+						{
+							posWumpKnown = true;
+							posWump = board.getPosition(x, y+1);
+						}
+					}
+				}
+			}
+			
+			if (posWumpKnown)
+			{
+				myacts = findPath(posWump);
+			}
+			else
+			{
+				return null; //(unable to locate wumpus using all known information about board)
+			}
+		}
+		
+		//insert commands to kill wumpus with arrow before entering wumpus's position
+		//*assuming that command to move into wumpus's position will be the last command in myacts*
+		int index = myacts.size()-1;
+		myacts.add(index, Action.SHOOT);
+		
+		return myacts;
+		
 	}
 	
 	
