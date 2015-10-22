@@ -9,11 +9,14 @@ package bu.edu.cs664;
  * position.
  *
  */
-public class Position implements Comparable
+public class Position implements Comparable<Position>
 {
 	int x, y;
 	//attributes can be accessed in the ordr of the Attribute enum ordinals
 	Boolean[] attributes;
+	
+	static int curX;
+	static int curY;
 	
 	/**
 	 * Constructor requires x and y coords.
@@ -193,17 +196,15 @@ public class Position implements Comparable
 		return "x: " + x + " y:" + y + " Attr: " + attributes;
 	}
 
-	int curX = 0;
-	int curY = 0;
 	@Override
-	public int compareTo(Object o) 
+	public int compareTo(Position o) 
 	{
 		int diffxTHIS = Math.abs(curX - this.x);
 		int diffyTHIS = Math.abs(curY - this.y);
 		int totdiffTHIS = Math.abs(diffxTHIS + diffyTHIS);
 		
-		int diffxOTHER = Math.abs(curX - ((Position)o).x);
-		int diffyOTHER = Math.abs(curY - ((Position)o).y);
+		int diffxOTHER = Math.abs(curX - o.x);
+		int diffyOTHER = Math.abs(curY - o.y);
 		int totdiffOTHER = Math.abs(diffxOTHER + diffyOTHER);
 		
 		
