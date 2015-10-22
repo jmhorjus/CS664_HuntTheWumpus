@@ -1,5 +1,7 @@
 package bu.edu.cs664;
 
+import java.;
+
 /**
  * Position class defines each individual
  * board position. Each position contains
@@ -43,6 +45,14 @@ public class Position
 			return true;
 		
 		return false;
+	}
+	
+	public int distanceTo(Position pos)
+	{
+		int deltaX = this.x - pos.x;
+		int deltaY = this.y - pos.y;
+		
+		return abs(deltaX) + abs(deltaY);
 	}
 	
 	/**
