@@ -29,6 +29,7 @@ public class KnowledgeBase {
 	public KnowledgeBase(Board board, Direction startDir)
 	{
 		this.board = board;
+		this.currentPos = board.getStartingPosition();
 		this.currentDir = startDir;
 	}
 	
