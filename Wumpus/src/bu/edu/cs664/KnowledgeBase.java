@@ -101,16 +101,14 @@ public class KnowledgeBase {
 						}
 						
 						if (noWumpus && noPits) {
-							
+							// THIS IS A SAFE EDGE SPACE.
+							safeEdgePositions.add(pos);
 						}
-					}
-					
+					}	
 				}
 			}
 		}
-		
-		// For each edge position, determine whether that position is safe.
-	
+
 		
 		// If there are *no* safe edge positions, then we need to get fancy with our arrow.
 		// return wumpusKillCommand();
