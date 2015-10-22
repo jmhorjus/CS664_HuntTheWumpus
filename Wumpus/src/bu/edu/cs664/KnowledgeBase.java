@@ -40,12 +40,23 @@ public class KnowledgeBase {
 	// The Game is asking me what action (or series of actions) I want to take next.
 	public List<Action> ask()
 	{
+		// First priority is if I know where the gold is (and I just found it and am standing on it)
+		// then grab it and get out via a safe (i.e. visited) path.
+		if ()
+		
+		
 		// First make a list of "edge positions" which are not visited but are adjacent to
 		// a visited position.
 		List<Position> edgePositions = new ArrayList<Position>();
 		for (int xx = 0; xx < board.getX(); xx++) {
 			for (int yy = 0; yy < board.getY(); yy++) {
+				
+				
+				
 				if (board.getPosition(xx, yy).hasAttribute(Attribute.VISITED) ) {
+				
+					
+					
 					
 				}
 			}
@@ -57,7 +68,7 @@ public class KnowledgeBase {
 		List<Position> safeEdgePositions = new ArrayList<Position>();
 		
 		// If there are *no* safe edge positions, then we need to get fancy with our arrow.
-
+		// return wumpusKillCommand();
 		
 		// Among safe edge positions, choose the closest one.  
 		// safeEdgePositions.sort( /*need to use a comparator here to compare distance from the current location*/ );
