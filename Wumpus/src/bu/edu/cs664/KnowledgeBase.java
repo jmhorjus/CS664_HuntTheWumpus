@@ -25,9 +25,10 @@ public class KnowledgeBase {
 	}
 	
 	// Constructor
-	public KnowledgeBase(Board board)
+	public KnowledgeBase(Board board, Direction startDir)
 	{
 		this.board = board;
+		this.currentDir = startDir;
 	}
 	
 	// The game s telling me the attributes of my current position.
@@ -127,6 +128,9 @@ public class KnowledgeBase {
 		List<Action> outputActions = new ArrayList<Action>();
 		
 		// determine a series of *visited* positions that connect our position to the destination. 
+		
+		// Um...try walking along a path toward the destination.  If there's a un-visited space in our way, try another direction.  
+		
 		
 		
 		return outputActions;

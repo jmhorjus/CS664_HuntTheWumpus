@@ -20,7 +20,7 @@ public class Player {
 	{
 		this.gameBoard = gameBoard;
 		this.myBoard = new Board(gameBoard.getX(), gameBoard.getY());
-		this.kb = new KnowledgeBase(myBoard);
+		this.kb = new KnowledgeBase(myBoard, Direction.SOUTH);
 	}
 	
 	public void play()
