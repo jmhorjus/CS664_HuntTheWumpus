@@ -15,6 +15,7 @@ public class Position implements Comparable<Position>
 	//attributes can be accessed in the ordr of the Attribute enum ordinals
 	Boolean[] attributes;
 	
+	// Used during sorts...this is the place all distances are measured from.
 	static int curX;
 	static int curY;
 	

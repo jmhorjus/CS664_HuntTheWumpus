@@ -116,7 +116,9 @@ public class KnowledgeBase {
 		// return wumpusKillCommand();
 		
 		// Among safe edge positions, choose the closest one.  
-		Collections.sort(safeEdgePositions);
+		Position.curX = currentPos.getX();
+		Position.curY = currentPos.getY();
+		Collections.sort( safeEdgePositions );
 		Position destination = safeEdgePositions.get(0);
 		
 		return findPath(destination);
@@ -130,8 +132,16 @@ public class KnowledgeBase {
 		
 		// determine a series of *visited* positions that connect our position to the destination. 
 		
-		// Um...try walking along a path toward the destination.  If there's a un-visited space in our way, try another direction.  
-		
+		// Super nieve solution:
+		// Just try walking along a path in the general direction of the destination.  
+		// If there's a un-visited space in our way, try another direction.  
+		Position here = boardPosition();
+		while (here != destination)
+		{
+			// What's the direction from here to destination?
+			
+			
+		}
 		
 		
 		return outputActions;
