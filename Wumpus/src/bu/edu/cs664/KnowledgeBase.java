@@ -219,23 +219,29 @@ public class KnowledgeBase {
 			int distanceEastX = destination.getX() - here.getX();
 			
 			Direction nextDirection = null;
+			boolean lastStepNonVisited = false;
+			
+			// If the distance to the destinaion is only 1 then go directly there!
+			if (Math.abs(distanceSouthY) + Math.abs(distanceEastX) == 1) {
+				lastStepNonVisited = true;
+			}
 			
 			// Try to find a good direction to move in that is into a visited space and generally toward the goal. 
 			if (Math.abs(distanceSouthY) > Math.abs(distanceEastX)) {
 				// Try to go north/south toward the destination.  
-				if (distanceSouthY > 0 && isNextPosInDirectionVisited(here, Direction.SOUTH)) {
+				if (distanceSouthY > 0 && (lastStepNonVisited || isNextPosInDirectionVisited(here, Direction.SOUTH))) {
 					// Go south; it's safe and (probably) the right way!
 					nextDirection = Direction.SOUTH;
-				} else if (isNextPosInDirectionVisited(here, Direction.NORTH)) {
+				} else if ((lastStepNonVisited || isNextPosInDirectionVisited(here, Direction.NORTH))) {
 					// Go north; it's safe and (probably) the right way!
 					nextDirection = Direction.NORTH;
 				}
 			} else {
 				// Try to go north/south toward the destination.  
-				if (distanceEastX > 0 && isNextPosInDirectionVisited(here, Direction.EAST)) {
+				if (distanceEastX > 0 && (lastStepNonVisited || isNextPosInDirectionVisited(here, Direction.EAST))) {
 					// Go east; it's safe and (probably) the right way!
 					nextDirection = Direction.EAST;	
-				} else if (isNextPosInDirectionVisited(here, Direction.WEST)) {
+				} else if ((lastStepNonVisited || isNextPosInDirectionVisited(here, Direction.WEST))) {
 					// Go west; it's safe and (probably) the right way!
 					nextDirection = Direction.WEST;	
 				}
@@ -296,7 +302,7 @@ public class KnowledgeBase {
 				){ 
 			outputActions.add(Action.TURN_LEFT);
 		} else {
-			throw new IllegalArgumentException("The directions defy logic! ");
+			throw new IllegalArgumentException("The directions " + st + " and " + end + " defy logic!" );
 		}
 			
 		return outputActions;
