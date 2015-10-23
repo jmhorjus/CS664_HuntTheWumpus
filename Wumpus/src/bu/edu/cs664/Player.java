@@ -25,6 +25,7 @@ public class Player {
 		this.gameBoard = gameBoard;
 		this.myBoard = new Board(gameBoard.getX(), gameBoard.getY());
 		this.kb = new KnowledgeBase(myBoard, gameBoard.getStartingPosition().getX(), gameBoard.getStartingPosition().getY(),  myDirection);
+		this.kb.tell(gameBoard.getStartingPosition());
 	}
 	
 	public void play()
@@ -37,9 +38,6 @@ public class Player {
 		do {
 			// Print the board state
 			myBoard.print();
-			
-			// Tell the KB my position
-			kb.tell(pos);
 			
 			// Ask what action i should perform next
 			actions = kb.ask();
@@ -151,6 +149,10 @@ public class Player {
 							pos = myBoard.getPosition(pos.getX() - 1, pos.getY());
 						}					
 					}
+					
+					//TODO: Now that we've moved to a new pos, check whether the new pos has a pit or live wumpus in it. 
+					//      If so, then the game is over and the knowledgebase is dead.  
+					
 					points--;
 					break;
 				case GRAB:
@@ -162,19 +164,27 @@ public class Player {
 				case SHOOT:
 					// 10 points to shoot
 					points -= 10;
+					// TODO: Shooting also shoots an arrow, potentially kills the wumpus, and tells the player whether the wumpus is dead.
 					break;
 				case CLIMB:
+					// TODO: If you're at the enterance, this aciton ends the game.
 					break;
 				default:
 					break;
+				case SNIFF_AIR:
+					// This is the one where they're saying they want us to tell them the attributes of their current position.
+					kb.tell(pos);
 			}
 		}
 		return pos;
 	}
 	
+	// Return true if a.) the knowledgebase is dead or b.) the knowledgebase has escaped with the gold.
 	private boolean gameIsOver()
 	{
-		return myMoves.isEmpty() ? true : false;
+		//return myMoves.isEmpty() ? true : false;
+		// TODO: Only return false if the game is actually over. i.e. the knowledgebase is dead or has escaped with the gold.
+		return false;
 	}
 	
 	public enum Action {
@@ -183,7 +193,8 @@ public class Player {
 		MOVE_FORWARD,
 		GRAB,
 		SHOOT,
-		CLIMB;
+		CLIMB,
+		SNIFF_AIR;
 	}
 	
 	public enum Sensors {

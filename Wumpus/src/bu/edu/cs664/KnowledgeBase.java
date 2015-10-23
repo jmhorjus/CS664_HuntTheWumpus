@@ -114,7 +114,8 @@ public class KnowledgeBase {
 
 		
 		// If there are *no* safe edge positions, then we need to get fancy with our arrow.
-		//return wumpusKillCommand();
+		if (safeEdgePositions.size() == 0)
+			return wumpusKillCommand();
 		
 		// Among safe edge positions, choose the closest one.  
 		Position.curX = currentPos.getX();
@@ -200,7 +201,7 @@ public class KnowledgeBase {
 	}
 	
 	
-	// The path-finding function.  Must find a series of actions which will 
+	// The path-finding function.  
 	protected List<Action> findPath(Position destination) {
 		
 		List<Action> outputActions = new ArrayList<Action>();
@@ -227,7 +228,7 @@ public class KnowledgeBase {
 			}
 			
 			// Try to find a good direction to move in that is into a visited space and generally toward the goal. 
-			if (Math.abs(distanceSouthY) > Math.abs(distanceEastX)) {
+			if (Math.abs(distanceSouthY) >= Math.abs(distanceEastX)) {
 				// Try to go north/south toward the destination.  
 				if (distanceSouthY > 0 && (lastStepNonVisited || isNextPosInDirectionVisited(here, Direction.SOUTH))) {
 					// Go south; it's safe and (probably) the right way!
@@ -247,6 +248,7 @@ public class KnowledgeBase {
 				}
 			}
 			
+			
 			// Take a step in the next direction! 
 			outputActions.addAll( turnToDirection(facing, nextDirection) );
 			facing = Direction.SOUTH;
@@ -255,6 +257,7 @@ public class KnowledgeBase {
 			
 		}
 		
+		outputActions.add(Action.SNIFF_AIR);
 		return outputActions;
 	}
 	
