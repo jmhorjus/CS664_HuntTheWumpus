@@ -12,6 +12,7 @@ public class Player {
 	
 	Position pos = null;
 	Direction myDirection = Direction.SOUTH;
+	boolean gameOver = false;
 	
 	/**
 	 * This is the Player object. The player is
@@ -29,13 +30,14 @@ public class Player {
 	
 	public void play()
 	{
-		java.util.List<Action> actions = null;
+		List<Action> actions = null;
 		
 		// Enter the game
 		pos = gameBoard.getStartingPosition();
 		
-		do {
-			// Print the board state
+		do {			
+			// Print the board states
+			gameBoard.print();
 			myBoard.print();
 			
 			// Tell the KB my position
@@ -47,7 +49,7 @@ public class Player {
 			// Perform the action
 			pos = performActions(actions);
 		}
-		while(!gameIsOver());
+		while(!gameOver);
 	}
 	
 	public Position performActions(List<Action> actions)
@@ -164,17 +166,14 @@ public class Player {
 					points -= 10;
 					break;
 				case CLIMB:
+					points--;
+					gameOver = true;
 					break;
 				default:
 					break;
 			}
 		}
 		return pos;
-	}
-	
-	private boolean gameIsOver()
-	{
-		return myMoves.isEmpty() ? true : false;
 	}
 	
 	public enum Action {
