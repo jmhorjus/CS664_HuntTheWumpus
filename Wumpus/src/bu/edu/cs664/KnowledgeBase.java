@@ -287,25 +287,25 @@ public class KnowledgeBase {
 			int distanceEastX = destination.getX() - here.getX();
 			
 			Direction nextDirection = null;
-			boolean lastStepNonVisited = (Math.abs(distanceSouthY) + Math.abs(distanceEastX) == 1);
+			boolean lastStep = (Math.abs(distanceSouthY) + Math.abs(distanceEastX) == 1);
 			
 			// Try to find a good direction to move in that is into a visited space and generally toward the goal. 
 			//if (Math.abs(distanceSouthY) >= Math.abs(distanceEastX)) {
 				// Try to go north/south toward the destination.  
-				if (distanceSouthY > 0 && (lastStepNonVisited || isNextPosInDirectionVisited(here, Direction.SOUTH))) {
+				if (distanceSouthY > 0 && isNextPosInDirectionOk(here, Direction.SOUTH, lastStep)) {
 					// Go south; it's safe and (probably) the right way!
 					nextDirection = Direction.SOUTH;
-				} else if ((lastStepNonVisited || isNextPosInDirectionVisited(here, Direction.NORTH))) {
+				} else if (distanceSouthY < 0 && isNextPosInDirectionOk(here, Direction.NORTH, lastStep)) {
 					// Go north; it's safe and (probably) the right way!
 					nextDirection = Direction.NORTH;
 				}
 			//} else {
 				if (nextDirection == null) {
 				// Try to go north/south toward the destination.  
-				if (distanceEastX > 0 && (lastStepNonVisited || isNextPosInDirectionVisited(here, Direction.EAST))) {
+				if (distanceEastX > 0 && isNextPosInDirectionOk(here, Direction.EAST, lastStep)) {
 					// Go east; it's safe and (probably) the right way!
 					nextDirection = Direction.EAST;	
-				} else if ((lastStepNonVisited || isNextPosInDirectionVisited(here, Direction.WEST))) {
+				} else if (distanceEastX < 0 && isNextPosInDirectionOk(here, Direction.WEST, lastStep)) {
 					// Go west; it's safe and (probably) the right way!
 					nextDirection = Direction.WEST;	
 				}
@@ -326,15 +326,15 @@ public class KnowledgeBase {
 		return outputActions;
 	}
 	
-	protected boolean isNextPosInDirectionVisited(Position pos, Direction dir) {
+	protected boolean isNextPosInDirectionOk(Position pos, Direction dir, boolean lastStep) {
 		Position next = board.getNextPosInDirection(pos, dir);
 		if (next == null) {
 			return false;
 		} 
-		if (!next.hasAttribute(Attribute.VISITED)) {
-			return false;
+		if (lastStep || next.hasAttribute(Attribute.VISITED)) {
+			return true;
 		}
-		return true;
+		return false;
 	}
 	
 	// Takes a list of actions and appends turn actions to that list so that the player will be facing the desired direction afterward.
