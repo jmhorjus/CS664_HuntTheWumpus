@@ -18,7 +18,7 @@ public class Board
 	// MaxX and MaxY are 1-based maximum X and maximum Y positions.
 	// So for a Size=4,4 board, maxX and maxY will be 5.
 	int maxX, maxY;
-	List<Position> positions;
+	Position[][] positions;
 	String[] possibleAttributes = {
 			Attribute.ENTRY.getSymbol(), 
 			Attribute.VISITED.getSymbol(),
@@ -44,7 +44,7 @@ public class Board
 	{
 		this.maxX = x + 1;
 		this.maxY = y + 1;
-		positions = new ArrayList<Position>(x * y);
+		positions = new Position[x][y];
 		
 		// initialize with Positions
 		for (int col = 0; col <= y; col++)
@@ -52,8 +52,7 @@ public class Board
 			for (int row = 0; row <= x; row++)
 			{
 				Position p = new Position(row, col, new String());
-				int index = col * maxX + row;
-				positions.add(index, p);
+				positions[row][col] = p;
 			}
 		}
 	}
@@ -69,8 +68,7 @@ public class Board
 	{
 		if (x > -1 && x < maxX && y > -1 && y < maxY)
 		{
-			int index = y * maxX + x;
-			return positions.get(index);
+			return positions[x][y];
 		}
 		return null;
 	}
@@ -86,8 +84,7 @@ public class Board
 		if (x > -1 && x < maxX && y > -1 && y < maxY)
 		{
 			Position pos = new Position(x, y, attrs);
-			int index = y * maxX + x;
-			positions.add(index, pos);
+			positions[x][y] = pos;
 		}
 		else {
 			throw new IllegalArgumentException("The X or Y coordinate is invalid.");
