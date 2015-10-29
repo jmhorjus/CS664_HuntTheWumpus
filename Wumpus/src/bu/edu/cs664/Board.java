@@ -42,14 +42,14 @@ public class Board
 	 */
 	public Board(int x, int y) 
 	{
-		this.maxX = x + 1;
-		this.maxY = y + 1;
+		this.maxX = x;
+		this.maxY = y;
 		positions = new Position[x][y];
 		
 		// initialize with Positions
-		for (int col = 0; col <= y; col++)
+		for (int col = 0; col < y; col++)
 		{
-			for (int row = 0; row <= x; row++)
+			for (int row = 0; row < x; row++)
 			{
 				Position p = new Position(row, col, new String());
 				positions[row][col] = p;

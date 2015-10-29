@@ -8,7 +8,7 @@ package bu.edu.cs664;
  */
 public class Wumpus {
 
-	int size[] = new int[] {4,4};
+	int size[] = new int[] {5,5};
 	String positions [][] = new String[][] {
 			{"0", "0", "E"},
 			{"0", "1", "B"},
