@@ -291,7 +291,7 @@ public class KnowledgeBase {
 			boolean lastStep = (Math.abs(distanceSouthY) + Math.abs(distanceEastX) == 1);
 			
 			// Try to find a good direction to move in that is into a visited space and generally toward the goal. 
-			//if (Math.abs(distanceSouthY) >= Math.abs(distanceEastX)) {
+			if (Math.abs(distanceSouthY) >= Math.abs(distanceEastX)) {
 				// Try to go north/south toward the destination.  
 				if (distanceSouthY > 0 && isNextPosInDirectionOk(here, Direction.SOUTH, lastStep)) {
 					// Go south; it's safe and (probably) the right way!
@@ -300,8 +300,9 @@ public class KnowledgeBase {
 					// Go north; it's safe and (probably) the right way!
 					nextDirection = Direction.NORTH;
 				}
-			//} else {
-				if (nextDirection == null) {
+			}
+
+			if (nextDirection == null) {
 				// Try to go north/south toward the destination.  
 				if (distanceEastX > 0 && isNextPosInDirectionOk(here, Direction.EAST, lastStep)) {
 					// Go east; it's safe and (probably) the right way!
@@ -310,9 +311,8 @@ public class KnowledgeBase {
 					// Go west; it's safe and (probably) the right way!
 					nextDirection = Direction.WEST;	
 				}
-				}
-				
-			//}
+			}
+
 			
 			
 			// Take a step in the next direction! 
