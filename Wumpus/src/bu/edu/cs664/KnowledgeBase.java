@@ -33,10 +33,75 @@ public class KnowledgeBase {
 		this.currentDir = startDir;
 	}
 	
-	// The game s telling me the attributes of my current position.
-	public void tell(Position pos)
+	public void youHaveMovedForward(){
+		switch (this.currentDir){
+		case NORTH:
+			this.currentPos.y--;
+			break;
+		case SOUTH:
+			this.currentPos.y++;
+			break;
+		case EAST:
+			this.currentPos.x++;
+			break;
+		case WEST:
+			this.currentPos.x--;
+			break;
+		}
+	}
+	
+	public void youHaveTurnedRight(){
+		switch (this.currentDir){
+		case NORTH:
+			this.currentDir = Direction.EAST;
+			break;
+		case SOUTH:
+			this.currentDir = Direction.WEST;
+			break;
+		case EAST:
+			this.currentDir = Direction.SOUTH;
+			break;
+		case WEST:
+			this.currentDir = Direction.NORTH;
+			break;
+		}
+	}
+	
+	public void youHaveTurnedLeft(){
+		switch (this.currentDir){
+		case NORTH:
+			this.currentDir = Direction.WEST;
+			break;
+		case SOUTH:
+			this.currentDir = Direction.EAST;
+			break;
+		case EAST:
+			this.currentDir = Direction.NORTH;
+			break;
+		case WEST:
+			this.currentDir = Direction.SOUTH;
+			break;
+		}
+	}
+	
+	public void youHaveShotTheWumpus(){
+		//TODO
+	}
+	
+	public void youHaveMissedTheWumpus(){
+		//TODO
+	}
+	
+	
+	// The game is telling me the attributes of my current position.
+	public void youHaveSniffed(Position pos)
 	{
-		// Set the attributes given as well as the "visited" attribute on my current space.
+		if (pos.x != currentPos.x || pos.y != currentPos.y) {
+			//DEBUG
+			throw new IllegalArgumentException("Position confusion detected.");
+		}
+		
+		// Set the attributes given as well as the "visited" attribute on my current space.	
 		pos.add(Attribute.VISITED);
 		boardPosition().setAttributes(pos.getAttributes());
 	}
@@ -220,15 +285,10 @@ public class KnowledgeBase {
 			int distanceEastX = destination.getX() - here.getX();
 			
 			Direction nextDirection = null;
-			boolean lastStepNonVisited = false;
-			
-			// If the distance to the destinaion is only 1 then go directly there!
-			if (Math.abs(distanceSouthY) + Math.abs(distanceEastX) == 1) {
-				lastStepNonVisited = true;
-			}
+			boolean lastStepNonVisited = (Math.abs(distanceSouthY) + Math.abs(distanceEastX) == 1);
 			
 			// Try to find a good direction to move in that is into a visited space and generally toward the goal. 
-			if (Math.abs(distanceSouthY) >= Math.abs(distanceEastX)) {
+			//if (Math.abs(distanceSouthY) >= Math.abs(distanceEastX)) {
 				// Try to go north/south toward the destination.  
 				if (distanceSouthY > 0 && (lastStepNonVisited || isNextPosInDirectionVisited(here, Direction.SOUTH))) {
 					// Go south; it's safe and (probably) the right way!
@@ -237,7 +297,8 @@ public class KnowledgeBase {
 					// Go north; it's safe and (probably) the right way!
 					nextDirection = Direction.NORTH;
 				}
-			} else {
+			//} else {
+				if (nextDirection == null) {
 				// Try to go north/south toward the destination.  
 				if (distanceEastX > 0 && (lastStepNonVisited || isNextPosInDirectionVisited(here, Direction.EAST))) {
 					// Go east; it's safe and (probably) the right way!
@@ -246,14 +307,16 @@ public class KnowledgeBase {
 					// Go west; it's safe and (probably) the right way!
 					nextDirection = Direction.WEST;	
 				}
-			}
+				}
+				
+			//}
 			
 			
 			// Take a step in the next direction! 
 			outputActions.addAll( turnToDirection(facing, nextDirection) );
-			facing = Direction.SOUTH;
+			facing = nextDirection;
 			outputActions.add(Action.MOVE_FORWARD);
-			here = board.getNextPosInDirection(here, Direction.SOUTH);
+			here = board.getNextPosInDirection(here, nextDirection);
 			
 		}
 		

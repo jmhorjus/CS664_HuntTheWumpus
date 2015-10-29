@@ -26,7 +26,7 @@ public class Player {
 		this.gameBoard = gameBoard;
 		this.myBoard = new Board(gameBoard.getX(), gameBoard.getY());
 		this.kb = new KnowledgeBase(myBoard, gameBoard.getStartingPosition().getX(), gameBoard.getStartingPosition().getY(),  myDirection);
-		this.kb.tell(gameBoard.getStartingPosition());
+		this.kb.youHaveSniffed(gameBoard.getStartingPosition());
 	}
 	
 	public void play()
@@ -75,6 +75,8 @@ public class Player {
 					}
 					points--;
 					
+					kb.youHaveTurnedLeft();
+					
 					// position stays the same
 					break;
 				case TURN_RIGHT:
@@ -95,6 +97,8 @@ public class Player {
 						myDirection = Direction.NORTH;
 					}
 					points--;
+					
+					kb.youHaveTurnedRight();
 					
 					// position stays the same
 					break;
@@ -152,6 +156,7 @@ public class Player {
 						}					
 					}
 					
+					kb.youHaveMovedForward();
 					//TODO: Now that we've moved to a new pos, check whether the new pos has a pit or live wumpus in it. 
 					//      If so, then the game is over and the knowledgebase is dead.  
 					
@@ -176,7 +181,7 @@ public class Player {
 					break;
 				case SNIFF_AIR:
 					// This is the one where they're saying they want us to tell them the attributes of their current position.
-					kb.tell(pos);
+					kb.youHaveSniffed(pos);
 			}
 		}
 		return pos;
