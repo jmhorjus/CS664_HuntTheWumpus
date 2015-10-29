@@ -105,7 +105,7 @@ public class Player {
 				case MOVE_FORWARD:
 					if (myDirection == Direction.SOUTH) 
 					{
-						if (pos.getY() + 1 > myBoard.getY())
+						if (pos.getY() + 1 > gameBoard.getY())
 						{
 							throw new IllegalArgumentException("Y axis out of bounds while moving FORWARD "
 									+ "while facing SOUTH at pos (" 
@@ -113,12 +113,12 @@ public class Player {
 						}
 						else 
 						{
-							pos = myBoard.getPosition(pos.getX(), pos.getY() + 1);
+							pos = gameBoard.getPosition(pos.getX(), pos.getY() + 1);
 						}
 					}
 					else if (myDirection == Direction.EAST) 
 					{
-						if (pos.getX() + 1 > myBoard.getX())
+						if (pos.getX() + 1 > gameBoard.getX())
 						{
 							throw new IllegalArgumentException("X axis out of bounds while moving FORWARD "
 									+ "while facing EAST at pos (" 
@@ -126,7 +126,7 @@ public class Player {
 						}
 						else
 						{
-							pos = myBoard.getPosition(pos.getX() + 1, pos.getY());
+							pos = gameBoard.getPosition(pos.getX() + 1, pos.getY());
 						}
 					}
 					else if (myDirection == Direction.NORTH)
@@ -139,7 +139,7 @@ public class Player {
 						}
 						else 
 						{
-							pos = myBoard.getPosition(pos.getX(), pos.getY() - 1);
+							pos = gameBoard.getPosition(pos.getX(), pos.getY() - 1);
 						}
 					}
 					else if (myDirection == Direction.WEST) 
@@ -152,7 +152,7 @@ public class Player {
 						}
 						else 
 						{
-							pos = myBoard.getPosition(pos.getX() - 1, pos.getY());
+							pos = gameBoard.getPosition(pos.getX() - 1, pos.getY());
 						}					
 					}
 					
