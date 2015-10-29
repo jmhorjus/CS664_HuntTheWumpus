@@ -16,36 +16,38 @@ import bu.edu.cs664.Player.Direction;
  */
 public class KnowledgeBase {
 	Board board = null; // My knowledge of the board.
-	Position currentPos = null; // Where I believe myself to be; x and y.
+	int currentX = -1; // Where I believe myself to be; x and y.
+	int currentY = -1;
 	Direction currentDir = null;
 	
 	// Get the "position" object from the board where we are.
 	private Position boardPosition()
 	{
-		return board.getPosition(currentPos.getX(), currentPos.getY());
+		return board.getPosition(currentX, currentY);
 	}
 	
 	// Constructor
 	public KnowledgeBase(Board newBoard, int startX, int startY, Direction startDir)
 	{
 		this.board = newBoard;
-		this.currentPos = this.board.getPosition(startX, startY);
+		this.currentX = startX;
+		this.currentY = startY;
 		this.currentDir = startDir;
 	}
 	
 	public void youHaveMovedForward(){
 		switch (this.currentDir){
 		case NORTH:
-			this.currentPos.y--;
+			this.currentY--;
 			break;
 		case SOUTH:
-			this.currentPos.y++;
+			this.currentY++;
 			break;
 		case EAST:
-			this.currentPos.x++;
+			this.currentX++;
 			break;
 		case WEST:
-			this.currentPos.x--;
+			this.currentX--;
 			break;
 		}
 	}
@@ -96,7 +98,7 @@ public class KnowledgeBase {
 	// The game is telling me the attributes of my current position.
 	public void youHaveSniffed(Position pos)
 	{
-		if (pos.x != currentPos.x || pos.y != currentPos.y) {
+		if (pos.x != currentX || pos.y != currentY) {
 			//DEBUG
 			throw new IllegalArgumentException("Position confusion detected.");
 		}
@@ -183,8 +185,8 @@ public class KnowledgeBase {
 			return wumpusKillCommand();
 		
 		// Among safe edge positions, choose the closest one.  
-		Position.curX = currentPos.getX();
-		Position.curY = currentPos.getY();
+		Position.curX = currentX;
+		Position.curY = currentY;
 		Collections.sort( safeEdgePositions );
 		Position destination = safeEdgePositions.get(0);
 		
