@@ -12,6 +12,7 @@ public class Player {
 	
 	Position pos = null;
 	Direction myDirection = Direction.SOUTH;
+	boolean gameOver = false;
 	
 	/**
 	 * This is the Player object. The player is
@@ -30,13 +31,14 @@ public class Player {
 	
 	public void play()
 	{
-		java.util.List<Action> actions = null;
+		List<Action> actions = null;
 		
 		// Enter the game
 		pos = gameBoard.getStartingPosition();
 		
-		do {
-			// Print the board state
+		do {			
+			// Print the board states
+			gameBoard.print();
 			myBoard.print();
 			
 			// Ask what action i should perform next
@@ -45,7 +47,7 @@ public class Player {
 			// Perform the action
 			pos = performActions(actions);
 		}
-		while(!gameIsOver());
+		while(!gameOver);
 	}
 	
 	public Position performActions(List<Action> actions)
@@ -167,7 +169,8 @@ public class Player {
 					// TODO: Shooting also shoots an arrow, potentially kills the wumpus, and tells the player whether the wumpus is dead.
 					break;
 				case CLIMB:
-					// TODO: If you're at the enterance, this aciton ends the game.
+					points--;
+					gameOver = true;
 					break;
 				default:
 					break;
@@ -179,14 +182,7 @@ public class Player {
 		return pos;
 	}
 	
-	// Return true if a.) the knowledgebase is dead or b.) the knowledgebase has escaped with the gold.
-	private boolean gameIsOver()
-	{
-		//return myMoves.isEmpty() ? true : false;
-		// TODO: Only return false if the game is actually over. i.e. the knowledgebase is dead or has escaped with the gold.
-		return false;
-	}
-	
+
 	public enum Action {
 		TURN_LEFT,
 		TURN_RIGHT,
