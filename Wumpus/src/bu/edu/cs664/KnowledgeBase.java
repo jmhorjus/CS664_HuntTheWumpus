@@ -153,19 +153,20 @@ public class KnowledgeBase {
 						boolean noWumpus = false;
 						for (Iterator<Position> adjPosIter = adjacents.iterator(); adjPosIter.hasNext();){
 							Position adjPos = adjPosIter.next();
-							if (adjPos.hasAttribute(Attribute.VISITED) && !adjPos.hasAttribute(Attribute.BREEZY)) {
+							if (adjPos.hasAttribute(Attribute.VISITED) && !adjPos.hasAttribute(Attribute.SMELLY)) {
 								noWumpus = true; // adjacent to one visited non-smelly position
 								break;
 							}
 						}
 						if (!noWumpus) {
 							// not adjacent to one visited smelly position.
+							outerloop:
 							for (int xxx = 0; xxx < board.getX(); xxx++) {
 								for (int yyy = 0; yyy < board.getY(); yyy++) {
 									Position pos2 = board.getPosition(xxx, yyy);
 									if (!pos2.adjacentTo(pos) && pos2.hasAttribute(Attribute.VISITED) && pos2.hasAttribute(Attribute.SMELLY)) {
 										noWumpus = true; // adjacent to one visited non-smelly position
-										break;
+										break outerloop;
 									}
 							}}
 						}
