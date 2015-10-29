@@ -327,7 +327,7 @@ public class Board
 	 */
 	public int getX() 
 	{
-		return maxX - 1;
+		return maxX;
 	}
 	
 	/**
@@ -336,6 +336,6 @@ public class Board
 	 */
 	public int getY() 
 	{
-		return maxY - 1;
+		return maxY;
 	}
 }
