@@ -19,6 +19,8 @@ public class KnowledgeBase {
 	int currentX = -1; // Where I believe myself to be; x and y.
 	int currentY = -1;
 	Direction currentDir = null;
+	boolean haveArrow = true;
+	boolean wumpusDead = false;
 	
 	// Get the "position" object from the board where we are.
 	private Position boardPosition()
@@ -88,10 +90,12 @@ public class KnowledgeBase {
 	
 	public void youHaveShotTheWumpus(){
 		//TODO
+		this.haveArrow = false;
+		this.wumpusDead = true;
 	}
 	
 	public void youHaveMissedTheWumpus(){
-		//TODO
+		this.haveArrow = false;
 	}
 	
 	
@@ -150,12 +154,14 @@ public class KnowledgeBase {
 							}
 						}			
 						// b.) Must be adjacent to one visited non-smelly position, or not-adjacent to one visited smelly position.
-						boolean noWumpus = false;
-						for (Iterator<Position> adjPosIter = adjacents.iterator(); adjPosIter.hasNext();){
-							Position adjPos = adjPosIter.next();
-							if (adjPos.hasAttribute(Attribute.VISITED) && !adjPos.hasAttribute(Attribute.SMELLY)) {
-								noWumpus = true; // adjacent to one visited non-smelly position
-								break;
+						boolean noWumpus = wumpusDead;
+						if (!noWumpus) {
+							for (Iterator<Position> adjPosIter = adjacents.iterator(); adjPosIter.hasNext();){
+								Position adjPos = adjPosIter.next();
+								if (adjPos.hasAttribute(Attribute.VISITED) && !adjPos.hasAttribute(Attribute.SMELLY)) {
+									noWumpus = true; // adjacent to one visited non-smelly position
+									break;
+								}
 							}
 						}
 						if (!noWumpus) {
@@ -182,8 +188,16 @@ public class KnowledgeBase {
 
 		
 		// If there are *no* safe edge positions, then we need to get fancy with our arrow.
-		if (safeEdgePositions.size() == 0)
-			return wumpusKillCommand();
+		if (safeEdgePositions.size() == 0){
+			if (haveArrow){
+				return wumpusKillCommand();	
+			}
+			else {
+				// We've used our arrow already and still can't safely find the gold.
+				// Get out of here!
+				return grabAndGo();
+			}
+		}
 		
 		// Among safe edge positions, choose the closest one.  
 		Position.curX = currentX;
@@ -263,6 +277,9 @@ public class KnowledgeBase {
 		//*assuming that command to move into wumpus's position will be the last command in myacts*
 		int index = myacts.size()-1;
 		myacts.add(index, Action.SHOOT);
+		
+		//After entering the wumpus's space our last action has to be to sniff the air again.
+		myacts.add(Action.SNIFF_AIR);
 		
 		return myacts;
 		
