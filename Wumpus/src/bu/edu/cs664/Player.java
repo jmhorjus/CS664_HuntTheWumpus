@@ -12,6 +12,7 @@ public class Player {
 	
 	Position pos = null;
 	Direction myDirection = Direction.SOUTH;
+	boolean wumpusAlive = true;
 	boolean gameOver = false;
 	
 	/**
@@ -36,10 +37,13 @@ public class Player {
 		// Enter the game
 		pos = gameBoard.getStartingPosition();
 		
+		gameBoard.print();
+		
 		do {			
 			// Print the board states
-			gameBoard.print();
+			//gameBoard.print();
 			myBoard.print();
+			System.out.print( "\nCurrent Score:" + points );
 			
 			// Ask what action i should perform next
 			actions = kb.ask();
@@ -48,6 +52,8 @@ public class Player {
 			pos = performActions(actions);
 		}
 		while(!gameOver);
+		
+		System.out.print( "\nFinal Score:" + points );
 	}
 	
 	public Position performActions(List<Action> actions)
@@ -103,6 +109,7 @@ public class Player {
 					// position stays the same
 					break;
 				case MOVE_FORWARD:
+					// TODO: The board has a "getNextPosInDirection" function; it should be used here.
 					if (myDirection == Direction.SOUTH) 
 					{
 						if (pos.getY() + 1 > gameBoard.getY())
@@ -155,25 +162,47 @@ public class Player {
 							pos = gameBoard.getPosition(pos.getX() - 1, pos.getY());
 						}					
 					}
-					
-					kb.youHaveMovedForward();
+
 					//TODO: Now that we've moved to a new pos, check whether the new pos has a pit or live wumpus in it. 
 					//      If so, then the game is over and the knowledgebase is dead.  
-					
+					if (wumpusAlive && pos.hasWumpus()){
+						System.out.print("\nPLAYER WAS EATEN BY WUMPUS");
+						gameOver = true;
+					}
+					if (pos.hasPit()){
+						System.out.print("\nPLAYER HAS FALLEN IN PIT");
+						gameOver = true;						
+					}
+						
+					kb.youHaveMovedForward();
+
 					points--;
 					break;
 				case GRAB:
 					if (pos.hasGlitter())
 					{
+						System.out.print("\nPLAYER HAS GRABBED THE GOLD!");
 						points += 1000;
 					}
 					break;
 				case SHOOT:
 					// 10 points to shoot
 					points -= 10;
-					// TODO: Shooting also shoots an arrow, potentially kills the wumpus, and tells the player whether the wumpus is dead.
+					
+					// TODO: Arrow currently has range of only one space.
+					if (gameBoard.getNextPosInDirection(pos, myDirection).hasAttribute(Attribute.WUMPUS)){
+						System.out.print("\nPLAYER HAS SHOT THE WUMPUS.");
+						wumpusAlive = false;
+						kb.youHaveShotTheWumpus();
+					}
+					else{
+						kb.youHaveMissedTheWumpus();	
+						System.out.print("\nPLAYER HAS SHOT AND MISSED THE WUMPUS!");
+					}
+						
 					break;
 				case CLIMB:
+					System.out.print("\nPLAYER HAS ESCAPED FROM THE CAVE.");
 					points--;
 					gameOver = true;
 					break;
