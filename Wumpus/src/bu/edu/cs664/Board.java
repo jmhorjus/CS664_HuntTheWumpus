@@ -1,6 +1,5 @@
 package bu.edu.cs664;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -320,6 +319,96 @@ public class Board
 			System.out.println("_");
 		}
 	}
+	
+	
+	//***Overloaded method to use current x and y positions as input in order to display player on board***
+	/**
+	 * Print an ASCII view of the this board, its positions
+	 * and the attribute contents.
+	 */
+	public void print(int myCurrX, int myCurrY)
+	{
+		System.out.println();
+		
+		// Print out the X header across the top
+		System.out.print("       ");
+		for (int x = 0; x < maxX; x++)
+		{
+			System.out.print("    " + x + "     ");
+		}
+		System.out.println();
+		
+		// Underline the initial header
+		System.out.print("       ");
+		for (int l = 0; l < maxX; l++)
+		{
+			System.out.print("__________");
+		}
+		System.out.println("_");
+		
+		// Display cell contents
+		for (int y = 0; y < maxY; y++)
+		{
+							
+			for (int i = 0; i < 2; i++)
+			{
+				// First line of a cell has the Y coord
+				if (i == 0)
+				{
+					System.out.print("  " + y + "    |");
+				}
+				// Other wise just an initial margin spacer
+				else 
+				{
+					System.out.print("       |");
+				}
+				
+				// Now we print the cell attributes (if any)
+				Boolean[] attrs;
+				for (int x = 0; x < maxX; x++)
+				{
+					// Print attributes on first line
+					if (i == 0)
+					{
+						// print the x,y position attributes
+						attrs = this.getPosition(x, y).getAttributes();
+						
+						//print the attributes
+						int printed = 0;
+						for (int p=0; p<attrs.length; p++)
+						{
+							if (attrs[p] == true)
+							{
+								System.out.print(possibleAttributes[p]);
+								printed++;
+							}
+						}
+						if (x==myCurrX && y==myCurrY)
+						{
+							System.out.print("@");
+							printed++;
+						}
+						System.out.print("          ".substring(0, 9 - printed));
+						System.out.print("|");
+					}
+					else
+					{
+						System.out.print("         |");
+					}
+				}
+				System.out.println();
+			}
+			
+			// Display the bottom of the cell
+			System.out.print("       ");
+			for (int x = 0; x < maxX; x++)
+			{
+				System.out.print("__________");
+			}
+			System.out.println("_");
+		}
+	}
+	
 	
 	/**
 	 * Get initial x size of board
