@@ -42,7 +42,7 @@ public class Player {
 		do {			
 			// Print the board states
 			//gameBoard.print();
-			myBoard.print();
+			myBoard.print(pos.getX(), pos.getY());
 			System.out.print( "\nCurrent Score:" + points );
 			
 			// Ask what action i should perform next
